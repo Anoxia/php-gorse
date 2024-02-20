@@ -38,25 +38,25 @@ final class Gorse
     /**
      * Retrieves a user from the Gorse system.
      *
-     * @param string $user_id The ID of the user to retrieve.
+     * @param string $userId The ID of the user to retrieve.
      * @return User The retrieved user object.
      * @throws GuzzleException
      */
-    public function getUser(string $user_id): User
+    public function getUser(string $userId): User
     {
-        return User::fromJSON($this->request('GET', "/api/user/$user_id", null));
+        return User::fromJSON($this->request('GET', "/api/user/$userId", null));
     }
 
     /**
      * Deletes a user from the Gorse system.
      *
-     * @param string $user_id The ID of the user to delete.
+     * @param string $userId The ID of the user to delete.
      * @return RowAffected The result of the operation, indicating the number of rows affected.
      * @throws GuzzleException
      */
-    public function deleteUser(string $user_id): RowAffected
+    public function deleteUser(string $userId): RowAffected
     {
-        return RowAffected::fromJSON($this->request('DELETE', "/api/user/$user_id", null));
+        return RowAffected::fromJSON($this->request('DELETE', "/api/user/$userId", null));
     }
 
     /**
@@ -86,50 +86,50 @@ final class Gorse
     /**
      * Retrieves an item from the Gorse system.
      *
-     * @param string $item_id The ID of the item to retrieve.
+     * @param string $itemId The ID of the item to retrieve.
      * @return Item The retrieved item object.
      * @throws GuzzleException
      */
-    public function getItem(string $item_id): Item
+    public function getItem(string $itemId): Item
     {
-        return Item::fromJSON($this->request('GET', "/api/item/$item_id", null));
+        return Item::fromJSON($this->request('GET', "/api/item/$itemId", null));
     }
 
     /**
      * Retrieves neighbors of an item from the Gorse system.
      *
-     * @param string $item_id The ID of the item.
+     * @param string $itemId The ID of the item.
      * @return array An array containing the neighbors of the item.
      * @throws GuzzleException
      */
-    public function getItemNeighbors(string $item_id): array
+    public function getItemNeighbors(string $itemId): array
     {
-        return $this->request('GET', "/api/item/$item_id/neighbors", null);
+        return $this->request('GET', "/api/item/$itemId/neighbors", null);
     }
 
     /**
      * Retrieves neighbors of an item in a specified category from the Gorse system.
      *
-     * @param string $item_id The ID of the item.
+     * @param string $itemId The ID of the item.
      * @param string $category The category of the item.
      * @return array An array containing the neighbors of the item in the specified category.
      * @throws GuzzleException
      */
-    public function getItemNeighborsInCategory(string $item_id, string $category): array
+    public function getItemNeighborsInCategory(string $itemId, string $category): array
     {
-        return $this->request('GET', "/api/item/$item_id/neighbors/$category", null);
+        return $this->request('GET', "/api/item/$itemId/neighbors/$category", null);
     }
 
     /**
      * Deletes an item from the Gorse system.
      *
-     * @param string $item_id The ID of the item to delete.
+     * @param string $itemId The ID of the item to delete.
      * @return RowAffected The result of the operation, indicating the number of rows affected.
      * @throws GuzzleException
      */
-    public function deleteItem(string $item_id): RowAffected
+    public function deleteItem(string $itemId): RowAffected
     {
-        return RowAffected::fromJSON($this->request('DELETE', "/api/item/$item_id", null));
+        return RowAffected::fromJSON($this->request('DELETE', "/api/item/$itemId", null));
     }
 
     /**
@@ -150,9 +150,24 @@ final class Gorse
      * @return array An array containing the latest items.
      * @throws GuzzleException
      */
-    public function getLatestItems(): array
+    public function getLatestItems(?int $n = null, ?int $offset = null, ?string $userId = null): array
     {
-        return $this->request('GET', '/api/latest/', null);
+        // Add n (number of items) parameter if provided
+        if ($n !== null) {
+            $queryParameters['n'] = $n;
+        }
+
+        // Add n (number of items) parameter if provided
+        if ($offset !== null) {
+            $queryParameters['offset'] = $offset;
+        }
+
+        // Add n (number of items) parameter if provided
+        if ($userId !== null) {
+            $queryParameters['user_id'] = $userId;
+        }
+
+        return $this->request('GET', '/api/latest/', null, $queryParameters);
     }
 
     /**
@@ -162,9 +177,24 @@ final class Gorse
      * @return array An array containing the latest items in the specified category.
      * @throws GuzzleException
      */
-    public function getLatestCategoryItems(string $category): array
+    public function getLatestCategoryItems(string $category, ?int $n = null, ?int $offset = null, ?string $userId = null): array
     {
-        return $this->request('GET', "/api/latest/$category", null);
+        // Add n (number of items) parameter if provided
+        if ($n !== null) {
+            $queryParameters['n'] = $n;
+        }
+
+        // Add n (number of items) parameter if provided
+        if ($offset !== null) {
+            $queryParameters['offset'] = $offset;
+        }
+
+        // Add n (number of items) parameter if provided
+        if ($userId !== null) {
+            $queryParameters['user_id'] = $userId;
+        }
+
+        return $this->request('GET', "/api/latest/$category", null, $queryParameters);
     }
 
     /**
@@ -173,9 +203,24 @@ final class Gorse
      * @return array An array containing the popular items.
      * @throws GuzzleException
      */
-    public function getPopularItems(): array
+    public function getPopularItems(?int $n = null, ?int $offset = null, ?string $userId = null): array
     {
-        return $this->request('GET', '/api/popular', null);
+        // Add n (number of items) parameter if provided
+        if ($n !== null) {
+            $queryParameters['n'] = $n;
+        }
+
+        // Add n (number of items) parameter if provided
+        if ($offset !== null) {
+            $queryParameters['offset'] = $offset;
+        }
+
+        // Add n (number of items) parameter if provided
+        if ($userId !== null) {
+            $queryParameters['user_id'] = $userId;
+        }
+
+        return $this->request('GET', '/api/popular', null, $queryParameters);
     }
 
     /**
@@ -185,22 +230,37 @@ final class Gorse
      * @return array An array containing the popular items in the specified category.
      * @throws GuzzleException
      */
-    public function getPopularItemsInCategory(string $category): array
+    public function getPopularItemsInCategory(string $category, ?int $n = null, ?int $offset = null, ?string $userId = null): array
     {
-        return $this->request('GET', "/api/popular/$category", null);
+        // Add n (number of items) parameter if provided
+        if ($n !== null) {
+            $queryParameters['n'] = $n;
+        }
+
+        // Add n (number of items) parameter if provided
+        if ($offset !== null) {
+            $queryParameters['offset'] = $offset;
+        }
+
+        // Add n (number of items) parameter if provided
+        if ($userId !== null) {
+            $queryParameters['user_id'] = $userId;
+        }
+
+        return $this->request('GET', "/api/popular/$category", null, $queryParameters);
     }
 
     /**
      * Retrieves recommendations for a user from the Gorse system.
      *
-     * @param string $user_id The ID of the user.
+     * @param string $userId The ID of the user.
      * @param string|null $writeBackType The type of write-back mechanism to use (optional). Possible value: "read".
      * @param string|null $writeBackDelay The delay for the write-back mechanism (optional). Possible value: "10m" for one minute.
      * @param int|null $n The number of recommendations to retrieve (optional).
      * @return array An array containing the recommendations for the user.
      * @throws GuzzleException
      */
-    public function getRecommend(string $user_id, ?string $writeBackType = null, ?string $writeBackDelay = null, ?int $n = null): array
+    public function getRecommend(string $userId, ?string $writeBackType = null, ?string $writeBackDelay = null, ?int $n = null, ?int $offset = null): array
     {
         $queryParameters = [];
 
@@ -219,13 +279,18 @@ final class Gorse
             $queryParameters['n'] = $n;
         }
 
-        return $this->request('GET', "/api/recommend/$user_id", null, $queryParameters);
+        // Add n (number of items) parameter if provided
+        if ($offset !== null) {
+            $queryParameters['offset'] = $offset;
+        }
+
+        return $this->request('GET', "/api/recommend/$userId", null, $queryParameters);
     }
 
     /**
      * Retrieves recommendations for a user in a specified category from the Gorse system.
      *
-     * @param string $user_id The ID of the user.
+     * @param string $userId The ID of the user.
      * @param string|null $writeBackType The type of write-back mechanism to use (optional). Possible value: "read".
      * @param string|null $writeBackDelay The delay for the write-back mechanism (optional). Possible value: "10m" for one minute.
      * @param int|null $n The number of recommendations to retrieve (optional).
@@ -233,7 +298,7 @@ final class Gorse
      * @return array An array containing the recommendations for the user in the specified category.
      * @throws GuzzleException
      */
-    public function getRecommendInCategory(string $user_id, string $category, ?string $writeBackType = null, ?string $writeBackDelay = null, ?int $n = null): array
+    public function getRecommendInCategory(string $userId, string $category, ?string $writeBackType = null, ?string $writeBackDelay = null, ?int $n = null, ?int $offset = null): array
     {
         $queryParameters = [];
 
@@ -252,7 +317,12 @@ final class Gorse
             $queryParameters['n'] = $n;
         }
 
-        return $this->request('GET', "/api/recommend/$user_id/$category", null, $queryParameters);
+        // Add n (number of items) parameter if provided
+        if ($offset !== null) {
+            $queryParameters['offset'] = $offset;
+        }
+
+        return $this->request('GET', "/api/recommend/$userId/$category", null, $queryParameters);
     }
 
     /**
