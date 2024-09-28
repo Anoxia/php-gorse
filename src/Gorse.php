@@ -147,11 +147,27 @@ final class Gorse
     /**
      * Retrieves the latest items from the Gorse system.
      *
-     * @return array An array containing the latest items.
+     * @param string $userId The ID of the user.
+     * @param string|null $writeBackType The type of write-back mechanism to use (optional). Possible value: "read".
+     * @param string|null $writeBackDelay The delay for the write-back mechanism (optional). Possible value: "10m" for one minute.
+     * @param int|null $n The number of recommendations to retrieve (optional).
+     * @return array An array containing the recommendations for the user in the specified category.
      * @throws GuzzleException
      */
-    public function getLatestItems(?int $n = null, ?int $offset = null, ?string $userId = null): array
+    public function getLatestItems(string $userId, ?string $writeBackType = null, ?string $writeBackDelay = null, ?int $n = null, ?int $offset = null): array
     {
+        $queryParameters = [];
+
+        // Add write-back-type parameter if provided
+        if ($writeBackType !== null) {
+            $queryParameters['write-back-type'] = $writeBackType;
+        }
+
+        // Add write-back-delay parameter if provided
+        if ($writeBackDelay !== null) {
+            $queryParameters['write-back-delay'] = $writeBackDelay;
+        }
+
         // Add n (number of items) parameter if provided
         if ($n !== null) {
             $queryParameters['n'] = $n;
@@ -160,11 +176,6 @@ final class Gorse
         // Add n (number of items) parameter if provided
         if ($offset !== null) {
             $queryParameters['offset'] = $offset;
-        }
-
-        // Add n (number of items) parameter if provided
-        if ($userId !== null) {
-            $queryParameters['user_id'] = $userId;
         }
 
         return $this->request('GET', '/api/latest/', null, $queryParameters);
@@ -173,12 +184,28 @@ final class Gorse
     /**
      * Retrieves the latest items in a specified category from the Gorse system.
      *
+     * @param string $userId The ID of the user.
+     * @param string|null $writeBackType The type of write-back mechanism to use (optional). Possible value: "read".
+     * @param string|null $writeBackDelay The delay for the write-back mechanism (optional). Possible value: "10m" for one minute.
+     * @param int|null $n The number of recommendations to retrieve (optional).
      * @param string $category The category of the items.
-     * @return array An array containing the latest items in the specified category.
+     * @return array An array containing the recommendations for the user in the specified category.
      * @throws GuzzleException
      */
-    public function getLatestCategoryItems(string $category, ?int $n = null, ?int $offset = null, ?string $userId = null): array
+    public function getLatestCategoryItems(string $userId, string $category, ?string $writeBackType = null, ?string $writeBackDelay = null, ?int $n = null, ?int $offset = null): array
     {
+        $queryParameters = [];
+
+        // Add write-back-type parameter if provided
+        if ($writeBackType !== null) {
+            $queryParameters['write-back-type'] = $writeBackType;
+        }
+
+        // Add write-back-delay parameter if provided
+        if ($writeBackDelay !== null) {
+            $queryParameters['write-back-delay'] = $writeBackDelay;
+        }
+
         // Add n (number of items) parameter if provided
         if ($n !== null) {
             $queryParameters['n'] = $n;
@@ -187,11 +214,6 @@ final class Gorse
         // Add n (number of items) parameter if provided
         if ($offset !== null) {
             $queryParameters['offset'] = $offset;
-        }
-
-        // Add n (number of items) parameter if provided
-        if ($userId !== null) {
-            $queryParameters['user_id'] = $userId;
         }
 
         return $this->request('GET', "/api/latest/$category", null, $queryParameters);
@@ -200,11 +222,27 @@ final class Gorse
     /**
      * Retrieves popular items from the Gorse system.
      *
-     * @return array An array containing the popular items.
+     * @param string $userId The ID of the user.
+     * @param string|null $writeBackType The type of write-back mechanism to use (optional). Possible value: "read".
+     * @param string|null $writeBackDelay The delay for the write-back mechanism (optional). Possible value: "10m" for one minute.
+     * @param int|null $n The number of recommendations to retrieve (optional).
+     * @return array An array containing the recommendations for the user in the specified category.
      * @throws GuzzleException
      */
-    public function getPopularItems(?int $n = null, ?int $offset = null, ?string $userId = null): array
+    public function getPopularItems(string $userId, ?string $writeBackType = null, ?string $writeBackDelay = null, ?int $n = null, ?int $offset = null): array
     {
+        $queryParameters = [];
+
+        // Add write-back-type parameter if provided
+        if ($writeBackType !== null) {
+            $queryParameters['write-back-type'] = $writeBackType;
+        }
+
+        // Add write-back-delay parameter if provided
+        if ($writeBackDelay !== null) {
+            $queryParameters['write-back-delay'] = $writeBackDelay;
+        }
+
         // Add n (number of items) parameter if provided
         if ($n !== null) {
             $queryParameters['n'] = $n;
@@ -213,11 +251,6 @@ final class Gorse
         // Add n (number of items) parameter if provided
         if ($offset !== null) {
             $queryParameters['offset'] = $offset;
-        }
-
-        // Add n (number of items) parameter if provided
-        if ($userId !== null) {
-            $queryParameters['user_id'] = $userId;
         }
 
         return $this->request('GET', '/api/popular', null, $queryParameters);
@@ -226,12 +259,29 @@ final class Gorse
     /**
      * Retrieves popular items in a specified category from the Gorse system.
      *
+     * @param string $userId The ID of the user.
+     * @param string|null $writeBackType The type of write-back mechanism to use (optional). Possible value: "read".
+     * @param string|null $writeBackDelay The delay for the write-back mechanism (optional). Possible value: "10m" for one minute.
+     * @param int|null $n The number of recommendations to retrieve (optional).
      * @param string $category The category of the items.
-     * @return array An array containing the popular items in the specified category.
+     * @return array An array containing the recommendations for the user in the specified category.
      * @throws GuzzleException
      */
-    public function getPopularItemsInCategory(string $category, ?int $n = null, ?int $offset = null, ?string $userId = null): array
+     */
+    public function getPopularItemsInCategory(string $userId, string $category, ?string $writeBackType = null, ?string $writeBackDelay = null, ?int $n = null, ?int $offset = null): array
     {
+        $queryParameters = [];
+
+        // Add write-back-type parameter if provided
+        if ($writeBackType !== null) {
+            $queryParameters['write-back-type'] = $writeBackType;
+        }
+
+        // Add write-back-delay parameter if provided
+        if ($writeBackDelay !== null) {
+            $queryParameters['write-back-delay'] = $writeBackDelay;
+        }
+
         // Add n (number of items) parameter if provided
         if ($n !== null) {
             $queryParameters['n'] = $n;
@@ -240,11 +290,6 @@ final class Gorse
         // Add n (number of items) parameter if provided
         if ($offset !== null) {
             $queryParameters['offset'] = $offset;
-        }
-
-        // Add n (number of items) parameter if provided
-        if ($userId !== null) {
-            $queryParameters['user_id'] = $userId;
         }
 
         return $this->request('GET', "/api/popular/$category", null, $queryParameters);
