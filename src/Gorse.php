@@ -267,7 +267,6 @@ final class Gorse
      * @return array An array containing the recommendations for the user in the specified category.
      * @throws GuzzleException
      */
-     */
     public function getPopularItemsInCategory(string $userId, string $category, ?string $writeBackType = null, ?string $writeBackDelay = null, ?int $n = null, ?int $offset = null): array
     {
         $queryParameters = [];
