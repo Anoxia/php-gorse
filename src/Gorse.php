@@ -216,7 +216,7 @@ final class Gorse
             $queryParameters['offset'] = $offset;
         }
 
-        return $this->request('GET', "/api/latest/$category", null, $queryParameters);
+        return $this->request('GET', "/api/latest/$category/$userId", null, $queryParameters);
     }
 
     /**
